@@ -38,4 +38,54 @@ router.post('/addnote', fetchuser, [
         res.status(500).send("Some error occured")
     }
 })
+
+///////////route-3 /// update_existing_note/////
+/// WE WILL REQUIRE ID OF THE NOTE THAT WE WANT TO UPDATE
+router.put('/updatenote/:id', fetchuser, async (req, res) => {
+    const { title, description, tag } = req.body;
+    try {
+        const newNote = {};
+        if (title) { newNote.title = title };
+        if (description) { newNote.description = description }
+        if (tag) { newNote.tag = tag };
+
+        ////// find the note to be updated 
+        let note = await Notes.findById(req.params.id);
+        if (!note) {
+            res.status(404).send("Not Found");
+        }
+        if (note.user.toString() !== req.user.id) {  //// chech in mongodb compass , we have a user parameter that stores the id of the user that created that note
+            return res.status(404).send("Not Allowed");
+        }
+
+        note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true });
+        res.json(note);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Some error occured")
+    }
+
+})
+
+////////// ROUTE_4 DELTED_NOTE ////////
+router.delete('/deletenote/:id', fetchuser, async (req, res) => {
+    try {
+        ////// find the note to be deleted 
+        let note = await Notes.findById(req.params.id);
+        if (!note) {
+            res.status(404).send("Not Found");
+        }
+        if (note.user.toString() !== req.user.id) {  //// chech in mongodb compass , we have a user parameter that stores the id of the user that created that note
+            return res.status(404).send("Not Allowed");
+        }
+        //// allow deletion only if user is the owner of the note
+        note = await Notes.findByIdAndDelete(req.params.id);
+        res.json("success . Note has been deleted");
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Some error occured")
+    }
+
+})
+
 module.exports = router

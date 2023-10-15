@@ -4,9 +4,10 @@ const User = require('../models/User')
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken');
-
+const fetchuser = require('../middleware/fetchuser')
 
 const JWT_SECRET = 'AdiisaGreatCoder#@s'
+///////////ROUTE - 1 - REGISTER   ////////////////////////////////
 ////// create a user using: POST "/api/auth/" . doesnt require authentication
 
 router.post('/createuser', [
@@ -48,6 +49,7 @@ router.post('/createuser', [
         res.status(500).send("Some error occured")
     }
 })
+//////////////////////////// ROUTE-2 LOGIN ///////////////////////////
 // application.use('/api/auth', require('./routes/auth')) 
 
 router.post('/login', [
@@ -81,7 +83,15 @@ router.post('/login', [
     }
 
 })
-///////// 
-
-//////////////// create a login endpoint to validate the user
+///////// ROUTE-3 GET_USER_INFORMATION  - LOGIN_REQUIRED /////////////////////////
+router.post('/getuser', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId).select("-password");
+        res.send(user);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).send("Internal Server Error ");
+    }
+})
 module.exports = router;

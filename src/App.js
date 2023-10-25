@@ -7,21 +7,28 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import NoteState from './context/notes/NoteState';
+import Alert from './components/Alert';
 function App() {
   return (
     <>
-      <Router>
-        <Navbar />
-        <h1>This is iNoteBook</h1>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/about">
-            <About />
-          </Route>
-        </Switch>
-      </Router>
+      <NoteState>
+        <Router>
+          <Navbar />
+          <Alert />
+          <div className='container'>
+            <h1>This is iNoteBook</h1>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route exact path="/about">
+                <About />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </NoteState>
     </>
   );
 }

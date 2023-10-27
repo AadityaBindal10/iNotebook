@@ -14,13 +14,13 @@ const Login = (props) => {
             body: JSON.stringify({ email: credentials.email, password: credentials.password })
         });
         const json = await response.json();
-        console.log(json);
+        console.log(json); /////// showing success and auth token
         if (json.success) {
             /// redirect
             localStorage.setItem('token', json.authToken);
             props.showAlert("logged in successfully", "success")
             history.push("/")
-
+            console.log("login successfull and auth token is set")
         }
         else {
             props.showAlert("invalid credentials", "danger")
@@ -34,16 +34,16 @@ const Login = (props) => {
         <div className='container mt-3'>
             <h2>Login to Continue to iNotebook</h2>
             <form onSubmit={handleSubmit}>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" value={credentials.email} onChange={onChange} id="email" aria-describedby="emailHelp" name="email" />
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" aria-describedby="emailHelp" name="email" />
+                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" value={credentials.password} onChange={onChange} id="password" name="password" />
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <input type="password" className="form-control" value={credentials.password} onChange={onChange} id="password" name="password" />
                 </div>
-                <button type="submit" class="btn btn-primary" >Submit</button>
+                <button type="submit" className="btn btn-primary" >Submit</button>
             </form>
         </div>
     )

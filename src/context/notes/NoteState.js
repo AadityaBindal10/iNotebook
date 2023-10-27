@@ -18,9 +18,9 @@ const NoteState = (props) => {
             // body: JSON.stringify({ title, description, tag })
         });
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         setNotes(json)
-        console.log(localStorage.getItem('token'));
+        // console.log(localStorage.getItem('token'));
     }
     ///////// ADD NOTE
     const addNote = async (title, description, tag) => {

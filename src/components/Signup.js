@@ -4,9 +4,10 @@ import { useHistory } from 'react-router-dom';
 const Signup = (props) => {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cPassword: "" })
     let history = useHistory();
+    // console.log(localStorage.getItem('token')) ////////////////////
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, email, password, cPassword } = credentials;
+        const { name, email, password } = credentials;
         const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: "POST",
             headers: {
@@ -19,9 +20,10 @@ const Signup = (props) => {
         console.log(json);
         if (json.success) {
             /// redirect
-            localStorage.setItem('token', json.authtoken)
+            localStorage.setItem('token', json.authToken);
+            props.showAlert("logged in successfully", "success")
             history.push("/")
-            props.showAlert("Successfully created your account", "success")
+            console.log("login successfull and auth token is set")
         }
         else {
             props.showAlert("invalid credentials", "danger")
@@ -34,24 +36,24 @@ const Signup = (props) => {
         <div className='container my-4'>
             <h2>Create an account to use iNoteBook</h2>
             <form onSubmit={handleSubmit}>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" onChange={onChange} aria-describedby="emailHelp" />
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Name</label>
+                    <input type="text" className="form-control" id="name" name="name" onChange={onChange} aria-describedby="emailHelp" />
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" onChange={onChange} aria-describedby="emailHelp" />
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input type="email" className="form-control" id="email" name="email" onChange={onChange} aria-describedby="emailHelp" />
+                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
-                <div class="mb-3">
-                    <label for="Password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="Password" name="password" minLength={5} required onChange={onChange} />
+                <div className="mb-3">
+                    <label htmlFor="Password" className="form-label">Password</label>
+                    <input type="password" className="form-control" id="Password" name="password" minLength={5} required onChange={onChange} />
                 </div>
-                <div class="mb-3">
-                    <label for="cPassword" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="cPassword" name="cpassword" minLength={5} required onChange={onChange} />
+                <div className="mb-3">
+                    <label htmlFor="cPassword" className="form-label">Confirm Password</label>
+                    <input type="password" className="form-control" id="cPassword" name="cpassword" minLength={5} required onChange={onChange} />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         </div>
     )

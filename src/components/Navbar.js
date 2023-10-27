@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 const Navbar = () => {
     let location = useLocation();
     useEffect(() => {
-        console.log(location.pathname);
     }, [location]);
     let history = useHistory();
     const handleLogout = () => {
@@ -31,8 +30,8 @@ const Navbar = () => {
                             </li>
                         </ul>
                         {!localStorage.getItem('token') ? <form className="d-flex" role="search">
-                            <Link to="/login" class="btn btn-info mx-1" role="button" >Login </Link>
-                            <Link to="/signup" class="btn btn-info mx-1" role="button" >Signup </Link>
+                            <Link to="/login" className="btn btn-info mx-1" role="button" >Login </Link>
+                            <Link to="/signup" className="btn btn-info mx-1" role="button" >Signup </Link>
                         </form> : <button onClick={handleLogout} className='btn btn-primary'>Logout</button>}
                     </div>
                 </div>

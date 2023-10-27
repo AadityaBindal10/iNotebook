@@ -11,7 +11,7 @@ import NoteState from './context/notes/NoteState';
 import Login from './components/Login';
 import Signup from './components/Signup'
 import Alert from './components/Alert';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -23,6 +23,15 @@ function App() {
       setAlert(null);
     }, 1500);
   }
+  useEffect(() => {
+    // Check if the token is present in localStorage
+    if (localStorage.getItem('token')) {
+      // Remove the token if it exists
+      localStorage.removeItem('token');
+      console.log("app.js is called")
+    }
+  }, []);
+
   return (
     <>
       <NoteState>
